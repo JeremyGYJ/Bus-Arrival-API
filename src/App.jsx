@@ -17,13 +17,13 @@ function BusService ({busArrivalData}){
 }
 
      {/* //Functoin to fetch bus arrival data based on API */}
-      async function fetchBusArrival(id){
+async function fetchBusArrival(id){
         const response = await fetch(`https://sg-bus-arrivals-sigma-schoolsc1.replit.app/?id=${id}`);
     const data = await response.json();
       return data;
       }
 
-      function App(){
+function App(){
         const [busStopId, setBusStopId] = useState('');
       
         const [busArrivalData, setBusArrivalData] = useState('null');
@@ -43,16 +43,53 @@ function BusService ({busArrivalData}){
       }
       }, [busStopId]);
 
-      function handleInputChange(event){
+  function handleInputChange(event){
         setBusStopId(event.target.value)
       }
 
+//Dropdown selection input
+      const [selection, setSelection] = useState(undefined);
+
+      const options = [
+            18141,
+            18131
+           ];
+  function onOptionChangeHandler(event){
+      setSelection(event.target.value);
+    console.log(
+        "User Selected Value - ",
+        event.target.value)
+    setBusStopId(event.target.value)
+  }
+        // const onOptionChangeHandler = (event) => {
+        //     setSelection(event.target.value);
+        //     console.log(
+        //         "User Selected Value - ",
+        //         event.target.value
+        //     );
+
+        
     return(
       <div>
       <h1>Bus Arrival App </h1>
+      
+       {/* //Using text inpu//  */}
         <input type="text" value={busStopId}
           onChange={handleInputChange}
           placeholder= 'Enter bus stop id'/>
+
+        {/* Using option input */}
+        <select onChange={onOptionChangeHandler}>
+            <option>Please choose one option</option>
+            {options.map((option, index) => {
+                return (
+                    <option key={index}>
+                        {option}
+                    </option>
+                );
+            })}
+        </select>
+
         
         {loading && <p> Loading ...</p>}
         {busArrivalData && busArrivalData.services &&(
@@ -64,4 +101,5 @@ function BusService ({busArrivalData}){
       </div>
     )
 }
-      export default App;
+
+ export default App;
