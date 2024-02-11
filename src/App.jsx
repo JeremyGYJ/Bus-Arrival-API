@@ -32,13 +32,15 @@ function BusService ({busArrivalData}){
       
       
  {/* Fetch bus arrival data on-the-fly as the user types in the bus stop id  */}
-      if(busStopId){
+      useEffect(() => {
+        if(busStopId){
         setLoading(true);
       fetchBusArrival(busStopId)
       .then((data) => setBusArrivalData(data))
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
       }
+      }, [busStopId]);
 
       function handleInputChange(event){
         setBusStopId(event.target.value)
